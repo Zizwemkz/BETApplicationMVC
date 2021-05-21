@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+<ul class="nav navbar-nav navbar-right">
+    @{
+        BETApplicationMVC.Shopify.Data.Data_Context db = new BETApplicationMVC.Shopify.Data.Data_Context();
+    }
+    <li class="dropdown mega-dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>  @db.Users.ToList().FirstOrDefault(x => x.UserName == @User.Identity.GetUserName()).Full_Name <span class="fa fa-angle-down"></span></a>
+        <ul class="dropdown-menu mega-dropdown-menu">
+            <li class="col-sm-3">
+                <ul>
+                    <li class="dropdown-header">Features</li>
+
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Some division here</li>
+                </ul>
+            </li>
+            <li class="col-sm-3">
+                <ul>
+                    <li class="dropdown-header">Some</li>
+
+                </ul>
+            </li>
+            <li class="col-sm-3">
+                <ul>
+                    <li class="dropdown-header">Much more</li>
+
+                </ul>
+            </li>
+            <li class="col-sm-3">
+                <ul>
+                    <li class="dropdown-header">@Html.MenuLink("My Personal Details", "Details", "Account", null, "fa fa-user", null)</li>
+                    <li class="dropdown-header">@Html.MenuLink("My Order History", "Order_History", "Orders", null, "fa fa-user", null)</li>
+                    <li class="divider"></li>
+                    <li><a href="#">View all Collection <span class="glyphicon glyphicon-chevron-right pull-right"></span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+   
+    <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-lock"></i> Sign out</a></li>
+</ul>
+                    }
+                }
+                else
+                {
+<ul class="nav navbar-nav navbar-right">
+    @Html.MenuLink("Create a new Account", "Register", "Account", null, "fa fa-pencil", null)
+    @Html.MenuLink("Sign in", "Login", "Account", null, "fa fa-lock", null)
+</ul>
+                }
+}

@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Payment Successful";
+}
+
+<h2 class="title text-center">@ViewBag.Title</h2>
+
+<h3>Order Details</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <b>Account Details</b>
+        @{ BETApplicationMVC.Shopify.Data.Customer Account = (BETApplicationMVC.Shopify.Data.Customer)ViewBag.Account; }
+        
+        <table class="table">
+            <tr>
+                <td>Name</td>
+                <td>@Account.FirstName   @Account.LastName</td>
+            </tr>
+            <tr>
+                <td>Cell Number</td>
+                <td>@Account.phone</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>@Account.Email</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        
+        <b>Order Details</b>
+        @{ BETApplicationMVC.Shopify.Data.Order order = (BETApplicationMVC.Shopify.Data.Order)ViewBag.Order; }
+        
+        <table class="table">
+            <tr>
+                <td>Order No.</td>
+                <td>@order.Order_ID</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>@order.status</td>
+            </tr>
+          
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        
+      
+
+    </div>
+    <div class="col-md-6">
+        
+        <b>Items in this Order</b>
+        <table class="table">
+            <tr>
+                <th>
+                    Picture
+                </th>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Qty
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+
+            @foreach (var item in (List<BETApplicationMVC.Shopify.Data.Order_Item>)ViewBag.Items)
+            {
+                <tr>
+                    <td>
+                        @if (item.Item.Picture != null)
+                        {
+                            var base64 = Convert.ToBase64String(item.Item.Picture);
+                            var imgSrc = string.Format("data:image/gif;base64,{0}", base64);
+                            <img src="@imgSrc" width="60" height="70" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.price)
+                    </td>
+                </tr>
+            }
+            
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>
+                    @ViewBag.Total.ToString("R0.00")
+                </th>
+            </tr>
+        </table>       
+    </div>
+</div>
